@@ -1,0 +1,14 @@
+{
+  "name": "gitinit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script/app.js",
+  "scripts": {
+    "dev": "parcel index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}

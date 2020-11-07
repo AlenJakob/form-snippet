@@ -17,4 +17,16 @@ const formSubmit = document.querySelector("#formSubmit");
 formSubmit.addEventListener("submit", (ev) => {
   ev.preventDefault();
   console.log(ev.target);
+//   get values 
 });
+
+function submitForm(e) {
+  e.preventDefault();
+}
+
+// helper funciton
+function getInputVal(id) {
+  return document.getElementById(id).value;
+}
+
+// Traversy contact form 9:40 sec

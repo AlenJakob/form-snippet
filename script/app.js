@@ -1,7 +1,8 @@
 import { formDomObj } from "./form";
-import { firebaseConfig } from "./firebase";
+// import { firebaseConfig } from "./firebase";
+require("./firebase"); // instead of line above
 const formDom = document.querySelector("#form");
-var db = firebase.database().ref("messages")
+const db = firebase.database().ref("messages")
 
 formDom.innerHTML = formDomObj;
 const msgFromDataBase = firebase.database().ref().child('messages');
@@ -29,10 +30,10 @@ function submitForm() {
   const phone = getInputVal("phoneVal");
   const email = getInputVal("emailVal");
   const msg = getInputVal("msgVal");
-  const select = getInputVal("selectVal");
-  console.log(select);
-  if (select != "Select Case") {
-    saveMsg(name, phone, email, msg, select)
+  const caseMsg = getInputVal("selectVal");
+  console.log(caseMsg);
+  if (caseMsg != "Select Case") {
+    saveMsg(name, phone, email, msg, caseMsg)
     console.log("Message have been sent");
     return
   } else {
@@ -48,16 +49,15 @@ function getInputVal(id) {
 
 // save message to database
 
-function saveMsg(name, phone, email, msg, select) {
-  console.log(select);
-  // let newMsgRef = db.push();
-  // newMsgRef.set({
-  //   name: name,
-  //   phone: phone,
-  //   email: email,
-  //   msg: msg,
-  //   select: select
-  // })
+function saveMsg(name, phone, email, msg, caseMsg) {
+  let newMsgRef = db.push();
+  newMsgRef.set({
+    name: name,
+    phone: phone,
+    email: email,
+    msg: msg,
+    caseMsg: caseMsg
+  })
 }
 
 

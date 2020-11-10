@@ -39,8 +39,8 @@ export const formDomObj = `
     <div class="select">
       <select id="selectVal">
         <option>Select Case</option>
-        <option "hire">Hire me</option>
-        <option "frelance">Frelance </option>
+        <option value="hire">Hire me</option>
+        <option value="frelance">Frelance </option>
         <option value="other">Other Question</option>
       </select>
     </div>

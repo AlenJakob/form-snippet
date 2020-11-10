@@ -12,12 +12,21 @@ function getDataAndAppendToDom() {
   msgFromDataBase.on("value", (snapshot) => {
     let domMsgBox = document.querySelector(".data");
 
-    // var keysList = Object.keys(snapshot.val());
+    let keysList = Object.keys(snapshot.val());
+    // console.log(keysList);
     let msgList = Object.values(snapshot.val());
-    console.log(msgList);
+    // console.log(msgList);
+    // TRY TO CHANGE FOREACH THAT GIVE ALSO A KEY OF ELEMENT FROM FIREBASE
+    keysList.forEach((e) => {
+      // console.log(e);
+    });
+
+    for (let i = 0; i < keysList.length; i++) {
+      console.log(keysList[i]);
+      console.log(msgList[i]);
+    }
 
     msgList.forEach(({ caseMsg, email, msg, name, phone }) => {
-      console.log(email);
       const html = `
       <div class="column container is-4">
      <article class="message">
@@ -81,3 +90,10 @@ function saveMsg(name, phone, email, msg, caseMsg) {
 document.querySelector("#selectVal").addEventListener("change", (e) => {
   e.preventDefault();
 });
+
+// https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
+
+// ref.child(key).remove();
+
+// To remove specific Message
+// msgFromDataBase.child("-MLknVYWFhYTRFZ_Jch-").remove();

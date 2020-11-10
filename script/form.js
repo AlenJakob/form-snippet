@@ -37,9 +37,11 @@ export const formDomObj = `
   <label class="label">Subject</label>
   <div class="control">
     <div class="select">
-      <select>
-        <option>Select dropdown</option>
-        <option>With options</option>
+      <select id="selectVal">
+        <option>Select Case</option>
+        <option "hire">Hire me</option>
+        <option "frelance">Frelance </option>
+        <option value="other">Other Question</option>
       </select>
     </div>
   </div>

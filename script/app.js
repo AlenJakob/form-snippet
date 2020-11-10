@@ -2,30 +2,50 @@ import { formDomObj } from "./form";
 // import { firebaseConfig } from "./firebase";
 require("./firebase"); // instead of line above
 const formDom = document.querySelector("#form");
-const db = firebase.database().ref("messages")
+const db = firebase.database().ref("messages");
 
 formDom.innerHTML = formDomObj;
-const msgFromDataBase = firebase.database().ref().child('messages');
-console.log(msgFromDataBase);
 
-msgFromDataBase.on("child_added", snapshot => {
-  console.log(snapshot.val())
-  document.querySelector(".data").innerHTML = JSON.stringify(snapshot.val())
-})
+let msgFromDataBase = firebase.database().ref().child("messages");
 
+function getDataAndAppendToDom() {
+  msgFromDataBase.on("value", (snapshot) => {
+    let domMsgBox = document.querySelector(".data");
 
+    // var keysList = Object.keys(snapshot.val());
+    let msgList = Object.values(snapshot.val());
+    console.log(msgList);
 
-
+    msgList.forEach(({ caseMsg, email, msg, name, phone }) => {
+      console.log(email);
+      const html = `
+      <div class="column container is-4">
+     <article class="message">
+  <div class="message-header">
+    <p>${name}</p>
+    <button class="delete" aria-label="delete"></button>
+  </div>
+  <div class="message-body">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+  </div>
+ </article>
+      </div>
+    `;
+      // add messages to dom
+      domMsgBox.innerHTML += html;
+    });
+  });
+}
+getDataAndAppendToDom();
 
 const formSubmit = document.querySelector("#formSubmit");
 
 formSubmit.addEventListener("submit", (e) => {
   e.preventDefault();
-  submitForm()
+  submitForm();
 });
 
 function submitForm() {
-
   const name = getInputVal("fullNameVal");
   const phone = getInputVal("phoneVal");
   const email = getInputVal("emailVal");
@@ -33,17 +53,15 @@ function submitForm() {
   const caseMsg = getInputVal("selectVal");
   console.log(caseMsg);
   if (caseMsg != "Select Case") {
-    saveMsg(name, phone, email, msg, caseMsg)
+    saveMsg(name, phone, email, msg, caseMsg);
     console.log("Message have been sent");
-    return
+    return;
   } else {
     console.log("please choose case");
-
   }
 }
 // helper funciton
 function getInputVal(id) {
-  ;
   return document.getElementById(id).value;
 }
 
@@ -56,12 +74,10 @@ function saveMsg(name, phone, email, msg, caseMsg) {
     phone: phone,
     email: email,
     msg: msg,
-    caseMsg: caseMsg
-  })
+    caseMsg: caseMsg,
+  });
 }
 
-
 document.querySelector("#selectVal").addEventListener("change", (e) => {
-  e.preventDefault()
-  console.log(e.target.value);
-})
+  e.preventDefault();
+});

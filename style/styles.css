@@ -1,3 +1,33 @@
-.section-form{
+.section-form {
     max-width: 600px;
+}
+
+.modal-background {
+    background-color: transparent!important;
+}
+
+.is-modal {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+}
+
+.modal-content {
+    box-shadow: 0 0 3px rgb(255, 123, 123);
+}
+
+.section-form {
+    margin: 0 auto;
+}
+
+.message a {
+    text-decoration: none!important;
+    font-size: 1rem!important;
+}
+.reverse-messages {
+    display: flex;
+    flex-direction: column-reverse;
 }

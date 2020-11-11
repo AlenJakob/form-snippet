@@ -58,7 +58,7 @@ export const formDomObj = `
 
 <div class="field is-grouped">
   <div class="control">
-    <button class="button is-link">Submit</button>
+    <button class="button is-info">Submit</button>
   </div>
 
 </form>`;

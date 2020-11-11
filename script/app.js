@@ -1,6 +1,10 @@
-import { formDomObj } from "./form";
+import { formDomObj } from "./formMsg";
+import { alertMsg } from "./msg/showMsg"
+
 // import { firebaseConfig } from "./firebase";
 require("./firebase"); // instead of line above
+require("./msg/msgAlert")
+require("./loginForm")
 const formDom = document.querySelector("#form");
 const db = firebase.database().ref("messages");
 
@@ -8,44 +12,99 @@ formDom.innerHTML = formDomObj;
 
 let msgFromDataBase = firebase.database().ref().child("messages");
 
+let domMsgBox = document.querySelector(".data");
+
 function getDataAndAppendToDom() {
   msgFromDataBase.on("value", (snapshot) => {
-    let domMsgBox = document.querySelector(".data");
 
     let keysList = Object.keys(snapshot.val());
-    // console.log(keysList);
     let msgList = Object.values(snapshot.val());
-    // console.log(msgList);
-    // TRY TO CHANGE FOREACH THAT GIVE ALSO A KEY OF ELEMENT FROM FIREBASE
-    keysList.forEach((e) => {
-      // console.log(e);
-    });
 
-    for (let i = 0; i < keysList.length; i++) {
-      console.log(keysList[i]);
-      console.log(msgList[i]);
-    }
+    if (firebase.auth().currentUser === null) {
+      domMsgBox.innerHTML = `
+      <div class="title">There is no info</div>
+      `;
+    } else if (firebase.auth().currentUser != null) {
+      msgList.forEach(({ caseMsg, email, msg, name, phone }, id) => {
 
-    msgList.forEach(({ caseMsg, email, msg, name, phone }) => {
-      const html = `
-      <div class="column container is-4">
-     <article class="message">
-  <div class="message-header">
+        const html = `
+    <div data-id="${keysList[id]}">
+   <article class="message panel is-info">
+  <div class="message-header ">
     <p>${name}</p>
-    <button class="delete" aria-label="delete"></button>
+    <p>${keysList[id]}</p>
+    <button class="delete-msg delete" aria-label="delete"></button>
   </div>
   <div class="message-body">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+  <ul class="mb-5 panel">
+
+  <a class="panel-block">
+  <span class="panel-icon">
+    <i class="fas fa-user" aria-hidden="true"></i>
+  </span>
+ Name: ${name}
+</a>
+
+<a class="panel-block">
+  <span class="panel-icon">
+    <i class="fas fa-envelope" aria-hidden="true"></i>
+  </span>
+  Email: ${email}
+</a>
+
+<a class="panel-block">
+  <span class="panel-icon">
+    <i class="fas fa-phone" aria-hidden="true"></i>
+  </span>
+  Mobile: ${phone}
+</a>
+
+<a class="panel-block">
+  <span class="panel-icon">
+    <i class="fas fa-book" aria-hidden="true"></i>
+  </span>
+  Subject: ${caseMsg}
+</a>
+</ul>
+    <p class="subtitle box is-info"> ${msg}</p>
+      <div class="column is-4">
+  </div>
   </div>
  </article>
       </div>
     `;
-      // add messages to dom
-      domMsgBox.innerHTML += html;
-    });
+        // add messages to dom
+        domMsgBox.innerHTML += html;
+
+        const removeBtns = document.querySelectorAll(".delete-msg");
+        removeBtns.forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            domMsgBox.innerHTML = ``;
+            const divRemove = e.target.closest('div[data-id]');
+            const getID = divRemove.getAttribute("data-id")
+            console.log(getID);
+            msgFromDataBase.child(getID).remove()
+          })
+          
+        })
+
+      });
+    }
   });
+
+
 }
-getDataAndAppendToDom();
+
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    getDataAndAppendToDom();
+  } else {
+    // No user is signed in.
+    getDataAndAppendToDom();
+  }
+});
 
 const formSubmit = document.querySelector("#formSubmit");
 
@@ -60,14 +119,18 @@ function submitForm() {
   const email = getInputVal("emailVal");
   const msg = getInputVal("msgVal");
   const caseMsg = getInputVal("selectVal");
-  console.log(caseMsg);
   if (caseMsg != "Select Case") {
     saveMsg(name, phone, email, msg, caseMsg);
+    domMsgBox.innerHTML = ``;
+    getDataAndAppendToDom();
     console.log("Message have been sent");
     return;
-  } else {
+  } else if (caseMsg === "Select Case") {
+    alertMsg();
+
     console.log("please choose case");
   }
+
 }
 // helper funciton
 function getInputVal(id) {
@@ -90,6 +153,11 @@ function saveMsg(name, phone, email, msg, caseMsg) {
 document.querySelector("#selectVal").addEventListener("change", (e) => {
   e.preventDefault();
 });
+
+
+// Remove Message
+
+
 
 // https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
 

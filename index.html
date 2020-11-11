@@ -5,9 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase.js"></script>
-  <script  src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css"
     crossorigin="anonymous" />
   <link rel="stylesheet" href="style/styles.css" />
@@ -15,16 +15,35 @@
 </head>
 
 <body>
-  <section class="section">
-    <div class="container">
-      <h1>Form</h1>
-      <div id="form" class="section section-form"></div>
+  
+<button id="check-user" class="button is-danger">Check</button>
+  <section class="hero is-info">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Contact Me
+        </h1>
+        <h2 class="subtitle">
+          Alen Jakob
+        </h2>
+
+        <div class="login is-4 columns "></div>
+      </div>
     </div>
   </section>
 
-  <div class="data columns section"></div>
-  <script  src="script/app.js"></script>
-  <script  src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+  <section class="section columns">
+    <div class="is-modal is-desktop">
+      <div class="modal-content">
+        <!-- Modal Message -->
+      </div>
+      </button>
+    </div>
+  </section>
+
+  <div id="form" class="section section-form "></div>
+  <div class="data is-multiline is-mobile container column reverse-messages"></div>
+  <script src="script/app.js"></script>
 </body>
 
 </html>

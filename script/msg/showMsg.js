@@ -21,11 +21,11 @@ export function alertMsg(state) {
   });
   setTimeout(() => {
     modal.style.display = "none";
-  }, 141000);
+  }, 1000);
 }
 
 const msgInvalid = `
-  <div class="box message is-danger">
+  <div class="box message is-danger is-fluid">
         <article class="media">
           <div class="media-content">
             <div class="content">

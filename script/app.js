@@ -3,7 +3,6 @@ import { alertMsg } from "./msg/showMsg";
 import { loader } from "./msg/loader";
 // import { firebaseConfig } from "./firebase";
 require("./firebase"); // instead of line above
-require("./msg/msgAlert");
 require("./formLogin");
 const formDom = document.querySelector("#form");
 const db = firebase.database().ref("messages");

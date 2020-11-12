@@ -121,13 +121,12 @@ function submitForm() {
     loader();
     domMsgBox.innerHTML = ``;
     getDataAndAppendToDom();
+    setTimeout(() => alertMsg(1), 1000);
     console.log("Message have been sent");
     return;
   } else if (subject === "Select Case") {
     loader();
-    setTimeout(() => alertMsg(), 1000);
-    // alertMsg();
-
+    setTimeout(() => alertMsg(0), 1000);
     console.log("please choose case");
   }
 }
@@ -152,12 +151,3 @@ function saveMsg(name, phone, email, msg, subject) {
 document.querySelector("#selectVal").addEventListener("change", (e) => {
   e.preventDefault();
 });
-
-// Remove Message
-
-// https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
-
-// ref.child(key).remove();
-
-// To remove specific Message
-// msgFromDataBase.child("-MLknVYWFhYTRFZ_Jch-").remove();

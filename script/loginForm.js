@@ -1,6 +1,7 @@
 export const auth = firebase.auth();
 export const loginForm = `
- <form id="login-form" class="box  is-pulled-right ">
+ <form id="login-form" class="box is-pulled-right">
+ <div id="logged-as" class="subtitle has-text-black"></div>
  <div class="field">
  <p class="control has-icons-left has-icons-right">
    <input id="email" class="input" type="email" placeholder="Email" value="alen@alen.alen">

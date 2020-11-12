@@ -25,7 +25,7 @@ function getDataAndAppendToDom() {
       <div class="title">There is no info</div>
       `;
     } else if (firebase.auth().currentUser != null) {
-      msgList.forEach(({ caseMsg, email, msg, name, phone }, id) => {
+      msgList.forEach(({ subject, email, msg, name, phone }, id) => {
 
         const html = `
     <div data-id="${keysList[id]}">
@@ -42,28 +42,28 @@ function getDataAndAppendToDom() {
   <span class="panel-icon">
     <i class="fas fa-user" aria-hidden="true"></i>
   </span>
- Name: ${name}
+ <span> Name:<b> ${name}</b></span>
 </a>
 
 <a class="panel-block">
   <span class="panel-icon">
     <i class="fas fa-envelope" aria-hidden="true"></i>
   </span>
-  Email: ${email}
+  <span> Email:<b> ${email}</b></span>
 </a>
 
 <a class="panel-block">
   <span class="panel-icon">
     <i class="fas fa-phone" aria-hidden="true"></i>
   </span>
-  Mobile: ${phone}
+  <span> Mobile:<b> ${phone}</b></span>
 </a>
 
 <a class="panel-block">
   <span class="panel-icon">
     <i class="fas fa-book" aria-hidden="true"></i>
   </span>
-  Subject: ${caseMsg}
+ <span> Subject:<b> ${subject}</b></span>
 </a>
 </ul>
     <p class="subtitle box is-info"> ${msg}</p>
@@ -99,9 +99,11 @@ function getDataAndAppendToDom() {
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
+    document.querySelector("#logged-as").innerHTML = `Account: <b>${user.email}</b>`
     getDataAndAppendToDom();
   } else {
     // No user is signed in.
+    document.querySelector("#logged-as").innerHTML = ``;
     getDataAndAppendToDom();
   }
 });
@@ -118,14 +120,14 @@ function submitForm() {
   const phone = getInputVal("phoneVal");
   const email = getInputVal("emailVal");
   const msg = getInputVal("msgVal");
-  const caseMsg = getInputVal("selectVal");
-  if (caseMsg != "Select Case") {
-    saveMsg(name, phone, email, msg, caseMsg);
+  const subject = getInputVal("selectVal");
+  if (subject != "Select Case") {
+    saveMsg(name, phone, email, msg, subject);
     domMsgBox.innerHTML = ``;
     getDataAndAppendToDom();
     console.log("Message have been sent");
     return;
-  } else if (caseMsg === "Select Case") {
+  } else if (subject === "Select Case") {
     alertMsg();
 
     console.log("please choose case");
@@ -139,14 +141,14 @@ function getInputVal(id) {
 
 // save message to database
 
-function saveMsg(name, phone, email, msg, caseMsg) {
+function saveMsg(name, phone, email, msg, subject) {
   let newMsgRef = db.push();
   newMsgRef.set({
     name: name,
     phone: phone,
     email: email,
     msg: msg,
-    caseMsg: caseMsg,
+    subject: subject,
   });
 }
 

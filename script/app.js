@@ -1,13 +1,12 @@
 import { formDomObj } from "./formMsg";
-import { alertMsg } from "./msg/showMsg"
-
+import { alertMsg } from "./msg/showMsg";
+import { loader } from "./msg/loader";
 // import { firebaseConfig } from "./firebase";
 require("./firebase"); // instead of line above
-require("./msg/msgAlert")
-require("./loginForm")
+require("./msg/msgAlert");
+require("./formLogin");
 const formDom = document.querySelector("#form");
 const db = firebase.database().ref("messages");
-
 formDom.innerHTML = formDomObj;
 
 let msgFromDataBase = firebase.database().ref().child("messages");
@@ -16,7 +15,6 @@ let domMsgBox = document.querySelector(".data");
 
 function getDataAndAppendToDom() {
   msgFromDataBase.on("value", (snapshot) => {
-
     let keysList = Object.keys(snapshot.val());
     let msgList = Object.values(snapshot.val());
 
@@ -26,7 +24,6 @@ function getDataAndAppendToDom() {
       `;
     } else if (firebase.auth().currentUser != null) {
       msgList.forEach(({ subject, email, msg, name, phone }, id) => {
-
         const html = `
     <div data-id="${keysList[id]}">
    <article class="message panel is-info">
@@ -77,29 +74,27 @@ function getDataAndAppendToDom() {
         domMsgBox.innerHTML += html;
 
         const removeBtns = document.querySelectorAll(".delete-msg");
-        removeBtns.forEach(btn => {
+        removeBtns.forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             domMsgBox.innerHTML = ``;
-            const divRemove = e.target.closest('div[data-id]');
-            const getID = divRemove.getAttribute("data-id")
+            const divRemove = e.target.closest("div[data-id]");
+            const getID = divRemove.getAttribute("data-id");
             console.log(getID);
-            msgFromDataBase.child(getID).remove()
-          })
-          
-        })
-
+            msgFromDataBase.child(getID).remove();
+          });
+        });
       });
     }
   });
-
-
 }
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
-    document.querySelector("#logged-as").innerHTML = `Account: <b>${user.email}</b>`
+    document.querySelector(
+      "#logged-as"
+    ).innerHTML = `Account: <b>${user.email}</b>`;
     getDataAndAppendToDom();
   } else {
     // No user is signed in.
@@ -123,16 +118,18 @@ function submitForm() {
   const subject = getInputVal("selectVal");
   if (subject != "Select Case") {
     saveMsg(name, phone, email, msg, subject);
+    loader();
     domMsgBox.innerHTML = ``;
     getDataAndAppendToDom();
     console.log("Message have been sent");
     return;
   } else if (subject === "Select Case") {
-    alertMsg();
+    loader();
+    setTimeout(() => alertMsg(), 1000);
+    // alertMsg();
 
     console.log("please choose case");
   }
-
 }
 // helper funciton
 function getInputVal(id) {
@@ -156,10 +153,7 @@ document.querySelector("#selectVal").addEventListener("change", (e) => {
   e.preventDefault();
 });
 
-
 // Remove Message
-
-
 
 // https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html
 

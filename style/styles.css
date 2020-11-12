@@ -1,33 +1,46 @@
 .section-form {
-    max-width: 600px;
+  max-width: 600px;
 }
 
 .modal-background {
-    background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 .is-modal {
-    display: none;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 100;
-    transform: translate(-50%, -50%);
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
 }
 
 .modal-content {
-    box-shadow: 0 0 3px rgb(255, 123, 123);
+  box-shadow: 0 0 3px rgb(255, 123, 123);
 }
 
 .section-form {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .message a {
-    text-decoration: none!important;
-    font-size: 1rem!important;
+  text-decoration: none !important;
+  font-size: 1rem !important;
 }
 .reverse-messages {
-    display: flex;
-    flex-direction: column-reverse;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.control.is-loading {
+  display: none;
+  position: absolute !important;
+  right: 45%;
+  bottom: 25% !important;
+}
+.control.is-loading::after {
+  font-size: 2rem !important;
+  border: 2px solid #3298dc !important;
+  border: 2px solid #48c774 !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
 }

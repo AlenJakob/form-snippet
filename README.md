@@ -1,4 +1,12 @@
-##Contact form
+## Contact form
+
+Complete contact form for the
+customers to get in touch with us.
+
+User authentication function added , sign
+in with existing test account. Messages
+displayed in realtime
+
 # Stack
 
 - HTML5
